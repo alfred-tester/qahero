@@ -1,0 +1,175 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title="Archivo de Reportes" description="Índice completo de todos los reportes de calidad, automatización de pruebas y análisis técnicos de QA HERO.">
+  <div class="archive-header">
+    <h1 class="headline-xl page-title">ARCHIVO DE REPORTES</h1>
+    <p class="body-lg page-lead">
+      El registro cronológico de auditorías técnicas, análisis de cobertura, patrones de arquitectura de pruebas y guías de infraestructura de aseguramiento.
+    </p>
+    <div class="rule-thick-h" style="margin-top: 1.5rem;"></div>
+  </div>
+
+  <div class="article-list">
+    {sortedPosts.length === 0 ? (
+      <p class="body-md" style="padding: 2rem 0;">No se han emitido reportes en esta edición.</p>
+    ) : (
+      sortedPosts.map(post => {
+        const formattedDate = new Date(post.data.pubDate).toLocaleDateString('es-ES', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          timeZone: 'UTC'
+        });
+
+        return (
+          <article class="list-item">
+            <div class="item-meta code-sm">
+              <time datetime={post.data.pubDate.toISOString()}>{formattedDate.toUpperCase()}</time>
+              <span class="meta-sep">//</span>
+              <span>ESCRITO POR {post.data.author.toUpperCase()}</span>
+              <span class="meta-sep">//</span>
+              <span class={`status-text status-${post.data.status.toLowerCase()}`}>
+                ESTADO: {post.data.status.toUpperCase()}
+              </span>
+            </div>
+            
+            <h2 class="item-title headline-md">
+              <a href={`/blog/${post.id}`}>{post.data.title}</a>
+            </h2>
+            
+            <p class="item-description body-md">
+              {post.data.description}
+            </p>
+            
+            <div class="item-footer">
+              <div class="tags-container">
+                {post.data.tags.map(tag => (
+                  <span class="tag-meta code-sm">#{tag}</span>
+                ))}
+              </div>
+              
+              <a href={`/blog/${post.id}`} class="read-report label-caps">Leer reporte &rarr;</a>
+            </div>
+          </article>
+        );
+      })
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .archive-header {
+    margin-bottom: 2rem;
+  }
+
+  .page-title {
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .page-lead {
+    color: var(--color-on-surface-variant);
+    max-width: 800px;
+  }
+
+  .article-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .list-item {
+    border-bottom: var(--rule-thin) solid var(--color-primary);
+    padding: 2rem 0;
+    transition: background-color var(--transition-fast);
+  }
+
+  .list-item:hover {
+    background-color: var(--color-surface-container-low);
+  }
+
+  .item-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-on-surface-variant);
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-sep {
+    color: var(--color-outline-variant);
+    font-weight: bold;
+  }
+
+  .status-text {
+    font-weight: bold;
+    padding: 0 0.25rem;
+  }
+
+  .status-passed {
+    color: var(--color-on-tertiary-container);
+  }
+
+  .status-testing {
+    color: var(--color-secondary);
+  }
+
+  .status-failed {
+    color: var(--color-error);
+  }
+
+  .item-title {
+    margin-bottom: 0.75rem;
+  }
+
+  .item-title a {
+    color: var(--color-primary);
+    border-bottom: 2px solid transparent;
+  }
+
+  .item-title a:hover {
+    color: var(--color-secondary);
+    border-bottom-color: var(--color-secondary);
+  }
+
+  .item-description {
+    color: var(--color-on-surface-variant);
+    max-width: 900px;
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+  }
+
+  .item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .tags-container {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .tag-meta {
+    color: var(--color-outline);
+    font-size: 0.8125rem;
+  }
+
+  .read-report {
+    font-weight: bold;
+    color: var(--color-primary);
+    transition: color var(--transition-fast);
+  }
+
+  .read-report:hover {
+    color: var(--color-secondary);
+  }
+</style>

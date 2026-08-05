@@ -1,0 +1,273 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from '../components/Card.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const recentPosts = sortedPosts.slice(0, 4);
+---
+
+<BaseLayout title="Portada" description="QA Hero Narrative: El diario definitivo de aseguramiento de calidad de software y desarrollo.">
+  <!-- Hero / Lead Headline Section -->
+  <section class="hero-section">
+    <div class="hero-header">
+      <span class="label-caps hero-badge">REPORTE DE ESTADO</span>
+      <span class="line-divider"></span>
+    </div>
+    
+    <h1 class="display-lg main-headline">ASEGURAMIENTO DE CALIDAD: EL HÉROE SILENCIOSO DEL SOFTWARE</h1>
+    
+    <p class="hero-lead body-lg">Bienvenidos a la bitácora técnica de QA HERO. En este espacio documentamos patrones avanzados de automatización de pruebas, analizamos estrategias de integración continua (CI/CD) y exploramos la arquitectura del software desde el prisma de la robustez, la estabilidad y la calidad del código.</p>
+    
+    <div class="rule-thin-h" style="margin-top: 2rem;"></div>
+  </section>
+
+  <!-- Broadsheet asymmetric columns layout -->
+  <div class="broadsheet-grid">
+    <!-- Main Column: Articles -->
+    <main class="main-content">
+      <h2 class="headline-lg column-title">Últimos Reportes</h2>
+      
+      {recentPosts.length === 0 ? (
+        <p class="body-md">No hay reportes disponibles en este momento.</p>
+      ) : (
+        <div class="cards-grid">
+          {recentPosts.map(post => (
+            <div class="grid-item">
+              <Card 
+                title={post.data.title}
+                description={post.data.description}
+                pubDate={post.data.pubDate}
+                author={post.data.author}
+                url={`/blog/${post.id}`}
+                status={post.data.status}
+                tags={post.data.tags}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+    </main>
+    
+    <!-- Sidebar: Metadata / Glossary / Metrics -->
+    <aside class="sidebar">
+      <h2 class="headline-md column-title">Glosario Técnico</h2>
+      
+      <div class="sidebar-box">
+        <div class="glossary-item">
+          <div class="badge-wrapper">
+            <span class="status-badge label-caps status-passed">Passed</span>
+          </div>
+          <p class="body-md glossary-text">Todos los asserts de calidad e integración continua fueron validados exitosamente.</p>
+        </div>
+        
+        <div class="glossary-item">
+          <div class="badge-wrapper">
+            <span class="status-badge label-caps status-testing">Testing</span>
+          </div>
+          <p class="body-md glossary-text">Pruebas en ejecución. Reporte preliminar sujeto a variaciones de integración.</p>
+        </div>
+
+        <div class="glossary-item">
+          <div class="badge-wrapper">
+            <span class="status-badge label-caps status-failed">Failed</span>
+          </div>
+          <p class="body-md glossary-text">Regresión detectada. Requiere corrección inmediata del desarrollador responsable.</p>
+        </div>
+      </div>
+      
+      <div class="rule-thin-h" style="margin: 2rem 0;"></div>
+      
+      <h2 class="headline-md column-title">Métricas de Control</h2>
+      
+      <div class="metrics-container">
+        <div class="metric-row">
+          <span class="metric-label label-caps">Cobertura en CI</span>
+          <span class="metric-value code-sm">99.82%</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label label-caps">Fugas de Memoria</span>
+          <span class="metric-value code-sm">0.00%</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label label-caps">Tiempo de Compilación</span>
+          <span class="metric-value code-sm">&lt; 15s</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero-section {
+    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+
+  .hero-badge {
+    color: var(--color-on-secondary-container);
+    background-color: var(--color-secondary-container);
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--color-on-secondary-container);
+    font-size: 0.75rem;
+  }
+
+  .line-divider {
+    flex-grow: 1;
+    height: 1px;
+    background-color: var(--color-primary);
+  }
+
+  .main-headline {
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.03em !important;
+    margin-left: 8px !important;
+    padding-left: 0 !important;
+    text-indent: 0 !important;
+    text-align: left;
+    width: 100%;
+  }
+
+  .hero-lead {
+    color: var(--color-on-surface-variant);
+    font-size: 1.25rem;
+    line-height: 1.6;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    text-indent: 0 !important;
+    text-align: left;
+  }
+
+  /* Grid editorial */
+  .broadsheet-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--grid-gutter);
+    padding-top: var(--grid-gutter);
+  }
+
+  .column-title {
+    border-bottom: var(--rule-thick) solid var(--color-primary);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--grid-gutter);
+  }
+
+  /* Sidebar styling */
+  .sidebar {
+    border-left: var(--rule-thin) solid var(--color-outline-variant);
+    padding-left: var(--grid-gutter);
+  }
+
+  .sidebar-box {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .glossary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .badge-wrapper {
+    align-self: flex-start;
+  }
+
+  .glossary-text {
+    font-size: 0.875rem;
+    color: var(--color-on-surface-variant);
+    line-height: 1.4;
+  }
+
+  /* Status Badge sizing / colors helper */
+  .status-badge {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.625rem;
+    border: var(--rule-thin) solid transparent;
+    display: inline-block;
+  }
+
+  .status-passed {
+    background-color: var(--color-tertiary-container);
+    color: var(--color-on-tertiary-container);
+    border-color: var(--color-on-tertiary-container);
+  }
+
+  .status-testing {
+    background-color: var(--color-primary-container);
+    color: var(--color-secondary-container);
+    border-color: var(--color-secondary-container);
+  }
+
+  .status-failed {
+    background-color: var(--color-error-container);
+    color: var(--color-error);
+    border-color: var(--color-error);
+  }
+
+  .metrics-container {
+    display: flex;
+    flex-direction: column;
+    border: var(--rule-thin) solid var(--color-primary);
+  }
+
+  .metric-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-bottom: var(--rule-thin) solid var(--color-primary);
+  }
+
+  .metric-row:last-child {
+    border-bottom: none;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    color: var(--color-on-surface-variant);
+  }
+
+  .metric-value {
+    font-weight: bold;
+    color: var(--color-primary);
+  }
+
+  @media (max-width: 992px) {
+    .broadsheet-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+      border-left: none;
+      border-top: var(--rule-thin) solid var(--color-outline-variant);
+      padding-left: 0;
+      padding-top: var(--grid-gutter);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .cards-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,172 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  author: string;
+  url: string;
+  status?: 'Passed' | 'Testing' | 'Failed';
+  tags?: string[];
+}
+
+const { title, description, pubDate, author, url, status = 'Passed', tags = [] } = Astro.props;
+
+const formattedDate = new Date(pubDate).toLocaleDateString('es-ES', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  timeZone: 'UTC'
+});
+---
+
+<article class="card">
+  <div class="card-header">
+    <div class="card-meta code-sm">
+      <time datetime={pubDate instanceof Date ? pubDate.toISOString() : new Date(pubDate).toISOString()}>
+        {formattedDate}
+      </time>
+      <span class="meta-separator">//</span>
+      <span class="author-tag">{author.toUpperCase()}</span>
+    </div>
+    
+    <span class={`status-badge label-caps status-${status.toLowerCase()}`}>
+      {status}
+    </span>
+  </div>
+  
+  <h3 class="card-title headline-md">
+    <a href={url}>{title}</a>
+  </h3>
+  
+  <p class="card-description body-md">
+    {description}
+  </p>
+  
+  {tags.length > 0 && (
+    <div class="card-tags">
+      {tags.map(tag => (
+        <span class="tag-chip code-sm">#{tag}</span>
+      ))}
+    </div>
+  )}
+  
+  <a href={url} class="read-more label-caps">Leer reporte completo &rarr;</a>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-surface-container-lowest);
+    border: var(--rule-thin) solid var(--color-primary);
+    padding: 1.5rem;
+    position: relative;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    height: 100%;
+  }
+
+  .card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 4px 4px 0px var(--color-primary);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-on-surface-variant);
+  }
+
+  .meta-separator {
+    color: var(--color-outline-variant);
+    font-weight: bold;
+  }
+
+  .author-tag {
+    letter-spacing: 0.05em;
+  }
+
+  /* Status Badges */
+  .status-badge {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.6875rem;
+    border: var(--rule-thin) solid transparent;
+  }
+
+  .status-passed {
+    background-color: var(--color-tertiary-container); /* #00210c */
+    color: var(--color-on-tertiary-container); /* #00984d */
+    border-color: var(--color-on-tertiary-container);
+  }
+
+  .status-testing {
+    background-color: var(--color-primary-container); /* #131b2e */
+    color: var(--color-secondary-container); /* #3fe1fd */
+    border-color: var(--color-secondary-container);
+  }
+
+  .status-failed {
+    background-color: var(--color-error-container);
+    color: var(--color-error);
+    border-color: var(--color-error);
+  }
+
+  .card-title {
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+  }
+
+  .card-title a {
+    color: var(--color-primary);
+  }
+
+  .card-title a:hover {
+    color: var(--color-secondary);
+  }
+
+  .card-description {
+    color: var(--color-on-surface-variant);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    flex-grow: 1; /* Pushes content tags and link to the bottom */
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+    padding-top: 0.75rem;
+    border-top: var(--rule-thin) solid var(--color-surface-container);
+  }
+
+  .tag-chip {
+    color: var(--color-on-surface-variant);
+    font-size: 0.75rem;
+    background-color: var(--color-surface-container-low);
+    padding: 0.15rem 0.4rem;
+    border: var(--rule-thin) solid var(--color-outline-variant);
+  }
+
+  .read-more {
+    font-size: 0.75rem;
+    color: var(--color-primary);
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    transition: color var(--transition-fast);
+  }
+
+  .read-more:hover {
+    color: var(--color-secondary);
+  }
+</style>

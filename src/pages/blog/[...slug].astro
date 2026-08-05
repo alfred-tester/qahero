@@ -1,0 +1,212 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const formattedDate = new Date(post.data.pubDate).toLocaleDateString('es-ES', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC'
+});
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <!-- Top Navigation Backbar -->
+  <div class="backbar">
+    <a href="/blog" class="back-link label-caps">&larr; Volver al archivo de reportes</a>
+    <div class="rule-thin-h" style="margin-top: 0.5rem; margin-bottom: 2rem;"></div>
+  </div>
+
+  <!-- Golden Ratio Broadsheet Grid -->
+  <div class="article-grid">
+    <!-- Main Article Body -->
+    <article class="article-main">
+      <header class="article-header">
+        <h1 class="display-lg post-title">{post.data.title}</h1>
+        <p class="post-lead body-lg">{post.data.description}</p>
+        <div class="rule-thin-h" style="margin: 2rem 0;"></div>
+      </header>
+
+      <div class="prose">
+        <Content />
+      </div>
+    </article>
+
+    <!-- Sidebar Technical Panel -->
+    <aside class="article-sidebar">
+      <div class="sidebar-section">
+        <h3 class="label-caps section-heading">Ficha Técnica</h3>
+        <div class="meta-table">
+          <div class="meta-row">
+            <span class="meta-key label-caps">REPORTE</span>
+            <span class="meta-val code-sm">#{post.id.toUpperCase()}</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key label-caps">FECHA</span>
+            <span class="meta-val code-sm">{formattedDate.toUpperCase()}</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key label-caps">AUTOR</span>
+            <span class="meta-val code-sm">{post.data.author.toUpperCase()}</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key label-caps">VERIFICACIÓN</span>
+            <span class={`status-badge label-caps status-${post.data.status.toLowerCase()}`}>
+              {post.data.status}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rule-thin-h" style="margin: 1.5rem 0;"></div>
+
+      <div class="sidebar-section">
+        <h3 class="label-caps section-heading">Tags Indexados</h3>
+        <div class="sidebar-tags">
+          {post.data.tags.map(tag => (
+            <span class="tag-pill code-sm">#{tag}</span>
+          ))}
+        </div>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>
+
+<style>
+  .back-link {
+    font-size: 0.8125rem;
+    color: var(--color-on-surface-variant);
+    font-weight: bold;
+    display: inline-block;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .article-grid {
+    display: grid;
+    grid-template-columns: 2.8fr 1.2fr;
+    gap: var(--grid-gutter);
+  }
+
+  .article-main {
+    min-width: 0; /* Prevents flex/grid items from stretching */
+  }
+
+  .post-title {
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .post-lead {
+    color: var(--color-on-surface-variant);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* Sidebar styling */
+  .article-sidebar {
+    border-left: var(--rule-thin) solid var(--color-outline-variant);
+    padding-left: var(--grid-gutter);
+    align-self: start;
+    position: sticky;
+    top: 2rem;
+  }
+
+  .section-heading {
+    display: block;
+    margin-bottom: 1rem;
+    color: var(--color-primary);
+    border-bottom: var(--rule-thin) solid var(--color-primary);
+    padding-bottom: 0.25rem;
+  }
+
+  .meta-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .meta-key {
+    font-size: 0.6875rem;
+    color: var(--color-on-surface-variant);
+  }
+
+  .meta-val {
+    color: var(--color-primary);
+    font-weight: bold;
+  }
+
+  /* Status Badge in Sidebar */
+  .status-badge {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.6875rem;
+    border: var(--rule-thin) solid transparent;
+    display: inline-block;
+    align-self: flex-start;
+  }
+
+  .status-passed {
+    background-color: var(--color-tertiary-container);
+    color: var(--color-on-tertiary-container);
+    border-color: var(--color-on-tertiary-container);
+  }
+
+  .status-testing {
+    background-color: var(--color-primary-container);
+    color: var(--color-secondary-container);
+    border-color: var(--color-secondary-container);
+  }
+
+  .status-failed {
+    background-color: var(--color-error-container);
+    color: var(--color-error);
+    border-color: var(--color-error);
+  }
+
+  .sidebar-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag-pill {
+    background-color: var(--color-surface-container);
+    color: var(--color-on-surface-variant);
+    padding: 0.2rem 0.5rem;
+    border: var(--rule-thin) solid var(--color-outline-variant);
+    font-size: 0.75rem;
+  }
+
+  @media (max-width: 992px) {
+    .article-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .article-sidebar {
+      border-left: none;
+      border-top: var(--rule-thin) solid var(--color-outline-variant);
+      padding-left: 0;
+      padding-top: var(--grid-gutter);
+      margin-top: var(--section-gap);
+    }
+  }
+</style>
