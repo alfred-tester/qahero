@@ -40,7 +40,7 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
             </div>
             
             <h2 class="item-title headline-md">
-              <a href={`/blog/${post.id}`}>{post.data.title}</a>
+              <a href={`${import.meta.env.BASE_URL}blog/${post.id}`}>{post.data.title}</a>
             </h2>
             
             <p class="item-description body-md">
@@ -54,7 +54,7 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
                 ))}
               </div>
               
-              <a href={`/blog/${post.id}`} class="read-report label-caps">Leer reporte &rarr;</a>
+              <a href={`${import.meta.env.BASE_URL}blog/${post.id}`} class="read-report label-caps">Leer reporte &rarr;</a>
             </div>
           </article>
         );

@@ -12,7 +12,7 @@ const today = new Date().toLocaleDateString("es-ES", {
     <div class="masthead-top">
       <div class="masthead-col col-left label-caps">EST. 2026 // VOL. I</div>
       <div class="masthead-center">
-        <a href="/" class="masthead-title">QAHERO</a>
+        <a href={import.meta.env.BASE_URL} class="masthead-title">QAHERO</a>
         <div class="masthead-tagline">
           EL DIARIO DE ASEGURAMIENTO DE CALIDAD Y DESARROLLO
         </div>
@@ -31,9 +31,9 @@ const today = new Date().toLocaleDateString("es-ES", {
     <div class="rule-thick-h"></div>
 
     <nav class="nav-bar">
-      <a href="/" class="nav-link label-caps">Inicio</a>
+      <a href={import.meta.env.BASE_URL} class="nav-link label-caps">Inicio</a>
       <span class="nav-separator">//</span>
-      <a href="/blog" class="nav-link label-caps">Artículos</a>
+      <a href={`${import.meta.env.BASE_URL}blog`} class="nav-link label-caps">Artículos</a>
     </nav>
 
     <div class="rule-thin-h"></div>
