@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 
 const posts = await getCollection('blog');
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 ---
 
 <BaseLayout title="Archivo de Reportes" description="Índice completo de todos los reportes de calidad, automatización de pruebas y análisis técnicos de QA HERO.">
@@ -40,7 +41,7 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
             </div>
             
             <h2 class="item-title headline-md">
-              <a href={`${import.meta.env.BASE_URL}blog/${post.id}`}>{post.data.title}</a>
+              <a href={`${baseUrl}blog/${post.id}`}>{post.data.title}</a>
             </h2>
             
             <p class="item-description body-md">
@@ -54,7 +55,7 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
                 ))}
               </div>
               
-              <a href={`${import.meta.env.BASE_URL}blog/${post.id}`} class="read-report label-caps">Leer reporte &rarr;</a>
+              <a href={`${baseUrl}blog/${post.id}`} class="read-report label-caps">Leer reporte &rarr;</a>
             </div>
           </article>
         );

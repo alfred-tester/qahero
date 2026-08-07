@@ -19,12 +19,13 @@ const formattedDate = new Date(post.data.pubDate).toLocaleDateString('es-ES', {
   day: 'numeric',
   timeZone: 'UTC'
 });
+const baseUrl = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
   <!-- Top Navigation Backbar -->
   <div class="backbar">
-    <a href={`${import.meta.env.BASE_URL}blog`} class="back-link label-caps">&larr; Volver al archivo de reportes</a>
+    <a href={`${baseUrl}blog`} class="back-link label-caps">&larr; Volver al archivo de reportes</a>
     <div class="rule-thin-h" style="margin-top: 0.5rem; margin-bottom: 2rem;"></div>
   </div>
 
