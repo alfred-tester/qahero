@@ -1,0 +1,280 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Colaborar" description="Convocatoria editorial para testers y desarrolladores. Aprende cómo escribir y aportar reportes técnicos en QA Hero.">
+  <div class="collab-container">
+    
+    <!-- Editorial Page Header -->
+    <header class="collab-header">
+      <span class="label-caps collab-badge">CONVOCATORIA ABIERTA</span>
+      <h1 class="display-lg main-title">ESCRIBE EN QA HERO</h1>
+      <p class="hero-lead body-lg">
+        QA Hero es una bitácora abierta y colectiva. Si tienes experiencia documentando patrones de automatización, análisis de caídas de sistemas, evaluaciones de herramientas o guías de testing móvil y de APIs, te invitamos a publicar tus reportes técnicos aquí.
+      </p>
+      <div class="rule-thick-h" style="margin-top: 2rem;"></div>
+    </header>
+
+    <!-- Content Grid -->
+    <div class="collab-grid">
+      
+      <!-- Left Column: Instructions -->
+      <section class="instructions-section">
+        <h2 class="headline-md section-title">El Proceso de Contribución</h2>
+        
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-number code-sm">01</span>
+            <h3 class="headline-sm">Preparar tu Bifurcación (Fork)</h3>
+          </div>
+          <p class="body-md">
+            El código fuente de esta edición es 100% abierto. Para empezar, realiza un <strong>Fork</strong> de nuestro repositorio oficial en GitHub y clónalo localmente en tu máquina de desarrollo.
+          </p>
+          <div class="code-block-wrapper">
+            <pre class="code-box"><code>git clone https://github.com/TU_USUARIO/qahero.git
+cd qahero
+pnpm install</code></pre>
+          </div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-number code-sm">02</span>
+            <h3 class="headline-sm">Redactar el Reporte (Markdown)</h3>
+          </div>
+          <p class="body-md">
+            Crea un nuevo archivo con extensión <code>.md</code> en el directorio <code>src/content/blog/</code> (por ejemplo, <code>mi-analisis-tecnico.md</code>). Cada entrada debe iniciar con la cabecera (frontmatter) obligatoria estructurada de la siguiente manera:
+          </p>
+          <div class="code-block-wrapper">
+            <pre class="code-box"><code>---
+title: "Título de tu reporte (corto y conciso)"
+description: "Resumen de lo que trata el análisis técnico."
+pubDate: 2026-08-09
+author: "Tu Nombre Completo"
+tags: ["mobile", "api", "automation"]
+status: "Passed" # Valores: "Passed" | "Testing" | "Failed"
+---</code></pre>
+          </div>
+          <p class="body-sm" style="margin-top: 0.5rem; color: var(--color-on-surface-variant);">
+            *Nota sobre el estado: Usa <strong>Passed</strong> para victorias/guías estables, <strong>Testing</strong> para experimentos en curso y <strong>Failed</strong> para post-mortems o antipatrones de error.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-header">
+            <span class="step-number code-sm">03</span>
+            <h3 class="headline-sm">Validar y Enviar (Pull Request)</h3>
+          </div>
+          <p class="body-md">
+            Antes de enviar tu artículo, ejecuta las verificaciones en tu terminal local. Esto asegura que la tipografía de TypeScript sea correcta y que la compilación estática de Astro funcione sin advertencias.
+          </p>
+          <p class="body-md">
+            Una vez validado, sube tu rama y abre un <strong>Pull Request (PR)</strong> en GitHub hacia nuestra rama <code>main</code>. Nuestro flujo automatizado compilará una vista previa de inmediato.
+          </p>
+        </div>
+      </section>
+
+      <!-- Right Column: Commands & Standards -->
+      <aside class="standards-sidebar">
+        <div class="sidebar-box-accent">
+          <h2 class="label-caps box-title">Consola de Desarrollo</h2>
+          <p class="body-sm" style="margin-bottom: 1rem;">
+            Comandos esenciales para el ciclo de edición de tu artículo local:
+          </p>
+          
+          <ul class="command-list">
+            <li>
+              <span class="command-tag code-sm">pnpm dev</span>
+              <span class="command-desc body-sm">Inicia el servidor local en localhost:4321</span>
+            </li>
+            <li>
+              <span class="command-tag code-sm">pnpm check</span>
+              <span class="command-desc body-sm">Verifica la integridad de TypeScript y componentes</span>
+            </li>
+            <li>
+              <span class="command-tag code-sm">pnpm build</span>
+              <span class="command-desc body-sm">Compila el blog generando el sitemap estático</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="sidebar-box-standard" style="margin-top: var(--grid-gutter);">
+          <h2 class="headline-sm font-editorial" style="margin-bottom: 1rem;">Línea Editorial</h2>
+          <p class="body-md">
+            Buscamos artículos honestos, pragmáticos y técnicos. Nos encanta el código real, las capturas de logs con fallas reales, los análisis de rendimiento y las metodologías que resuelvan problemas complejos del día a día del aseguramiento de calidad.
+          </p>
+          <div class="rule-thin-h" style="margin: 1.5rem 0;"></div>
+          <a href="https://github.com/alfred-tester/qahero" target="_blank" rel="noopener noreferrer" class="repo-link label-caps">
+            Ver Repositorio en GitHub &rarr;
+          </a>
+        </div>
+      </aside>
+
+    </div>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .collab-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+  }
+
+  .collab-header {
+    margin-bottom: var(--grid-gutter);
+    text-align: left;
+  }
+
+  .collab-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--color-secondary);
+    color: var(--color-background);
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .main-title {
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.03em !important;
+  }
+
+  .collab-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--grid-gutter);
+  }
+
+  .instructions-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .section-title {
+    margin-bottom: 0.5rem;
+  }
+
+  .step-card {
+    border: 1px solid var(--color-primary);
+    background-color: var(--color-background);
+    padding: 1.5rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 4px 4px 0px var(--color-primary);
+  }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .step-number {
+    font-size: 0.9rem;
+    font-weight: 700;
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    padding: 0.2rem 0.5rem;
+    min-width: 2rem;
+    text-align: center;
+  }
+
+  .code-block-wrapper {
+    margin-top: 1rem;
+    background-color: #000000;
+    color: #ffffff;
+    padding: 1rem;
+    overflow-x: auto;
+  }
+
+  .code-box {
+    margin: 0;
+    font-family: var(--font-technical);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .code-box code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  /* Sidebar Boxes */
+  .sidebar-box-accent {
+    border: 1px solid var(--color-primary);
+    background-color: var(--color-background);
+    padding: 1.5rem;
+    box-shadow: 4px 4px 0px var(--color-secondary);
+  }
+
+  .sidebar-box-standard {
+    border: 1px solid var(--color-primary);
+    background-color: var(--color-background);
+    padding: 1.5rem;
+    box-shadow: 4px 4px 0px var(--color-primary);
+  }
+
+  .box-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .command-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .command-list li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .command-tag {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    padding: 0.2rem 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    width: fit-content;
+  }
+
+  .command-desc {
+    color: var(--color-on-surface-variant);
+  }
+
+  .repo-link {
+    display: inline-block;
+    color: var(--color-secondary);
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.15s ease;
+  }
+
+  .repo-link:hover {
+    transform: translateX(4px);
+  }
+
+  /* Responsive styling */
+  @media (max-width: 900px) {
+    .collab-grid {
+      grid-template-columns: 1fr;
+      gap: var(--grid-gutter);
+    }
+    
+    .standards-sidebar {
+      margin-top: 1rem;
+    }
+  }
+</style>
