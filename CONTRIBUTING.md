@@ -10,11 +10,11 @@ Agradecemos enormemente cualquier aporte, ya sea corrigiendo errores tipográfic
 
 Sigue estos pasos para enviar tu colaboración:
 
-### 1. Bifurcar y Clonar
-1. Haz un **Fork** de este repositorio a tu cuenta de GitHub.
-2. Clónalo localmente:
+### 1. Obtener Acceso y Clonar
+1. Solicita al administrador del repositorio que te agregue como colaborador con permisos de escritura en GitHub.
+2. Clona el repositorio oficial directamente:
    ```bash
-   git clone https://github.com/TU_USUARIO/qahero.git
+   git clone https://github.com/alfred-tester/qahero.git
    cd qahero
    ```
 3. Instala las dependencias necesarias usando **pnpm**:
@@ -53,13 +53,13 @@ pnpm build
 
 ### 4. Abrir un Pull Request (PR)
 1. Crea una rama descriptiva para tu cambio: `git checkout -b post/pruebas-de-carga-k6`.
-2. Confirma y sube tus cambios:
+2. Confirma y sube tus cambios directamente a una nueva rama del repositorio oficial:
    ```bash
    git add .
    git commit -m "feat: agregar reporte sobre pruebas de carga con k6"
    git push origin post/pruebas-de-carga-k6
    ```
-3. Ve a GitHub y abre un **Pull Request** hacia nuestra rama `main`. Nuestro flujo de trabajo automatizado (GitHub Action) compilará el sitio para verificar que todo esté correcto.
+3. Ve a GitHub y abre un **Pull Request** de tu rama hacia `main`. Nuestro flujo de trabajo automatizado (GitHub Action) compilará el sitio para verificar que no haya errores de build antes de que el administrador apruebe y fusione tu post.
 
 ---
 

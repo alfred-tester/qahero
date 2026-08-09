@@ -25,13 +25,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         <div class="step-card">
           <div class="step-header">
             <span class="step-number code-sm">01</span>
-            <h3 class="headline-sm">Preparar tu Bifurcación (Fork)</h3>
+            <h3 class="headline-sm">Clonar el Repositorio</h3>
           </div>
           <p class="body-md">
-            El código fuente de esta edición es 100% abierto. Para empezar, realiza un <strong>Fork</strong> de nuestro repositorio oficial en GitHub y clónalo localmente en tu máquina de desarrollo.
+            Solicita al administrador del blog que te agregue como colaborador en el repositorio de GitHub. Una vez que tengas permisos de escritura, clona el proyecto oficial directamente en tu máquina de desarrollo.
           </p>
           <div class="code-block-wrapper">
-            <pre class="code-box"><code>git clone https://github.com/TU_USUARIO/qahero.git
+            <pre class="code-box"><code>git clone https://github.com/alfred-tester/qahero.git
 cd qahero
 pnpm install</code></pre>
           </div>
@@ -66,10 +66,17 @@ status: "Passed" # Valores: "Passed" | "Testing" | "Failed"
             <h3 class="headline-sm">Validar y Enviar (Pull Request)</h3>
           </div>
           <p class="body-md">
-            Antes de enviar tu artículo, ejecuta las verificaciones en tu terminal local. Esto asegura que la tipografía de TypeScript sea correcta y que la compilación estática de Astro funcione sin advertencias.
+            Antes de enviar tu artículo, ejecuta las verificaciones locales. Una vez validadas, crea una rama descriptiva para tu artículo, súbela directamente a este repositorio y abre un **Pull Request (PR)** hacia la rama <code>main</code>:
           </p>
-          <p class="body-md">
-            Una vez validado, sube tu rama y abre un <strong>Pull Request (PR)</strong> en GitHub hacia nuestra rama <code>main</code>. Nuestro flujo automatizado compilará una vista previa de inmediato.
+          <div class="code-block-wrapper">
+            <pre class="code-box"><code>git checkout -b post/mi-articulo
+# (hacer cambios)
+git add .
+git commit -m "feat: agregar mi reporte tecnico"
+git push origin post/mi-articulo</code></pre>
+          </div>
+          <p class="body-md" style="margin-top: 1rem;">
+            Nuestro flujo automatizado compilará una vista previa en GitHub Actions y el administrador revisará y fusionará tus cambios.
           </p>
         </div>
       </section>
