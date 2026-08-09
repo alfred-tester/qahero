@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://alfred-tester.github.io/qahero/sitemap-index.xml
